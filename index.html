@@ -17,9 +17,25 @@
 <body>
 <label >Score</label>
 <button id="score"></button>
+<button id="mp3" onclick="onOffNhacNen()">OFF MP3</button>
 <canvas id="myCanvas" width="800" height="600" style="border: solid red"></canvas>
 </body>
 <script>
+    let nhacNen = new Audio("audio/nhac_nen.mp3")
+    let vaTram = new Audio("audio/va_tram.mp3")
+    let isNhacNen = false;
+    function onOffNhacNen() {
+        isNhacNen = !isNhacNen;
+        if(isNhacNen){
+            nhacNen.play();
+            document.getElementById('mp3').innerHTML = 'ON MP3'
+            document.getElementById('mp3').style.backgroundColor = 'blue'
+        } else {
+            nhacNen.pause();
+            document.getElementById('mp3').innerHTML = 'OFF MP3'
+            document.getElementById('mp3').style.backgroundColor = 'red'
+        }
+    }
     let score = 0;
     let canvas = document.getElementById('myCanvas');
     let ctx = canvas.getContext('2d');
@@ -47,12 +63,12 @@
     //Khai báo Bricks
     let column =3;
     let row = 3;
-    let widthBrick =200;
-    let heightBrick = 50;
+    let widthBrick =100;
+    let heightBrick = 20;
     let betweenLeftRight = 70;
     let betweenTopDow = 50;
     let marginAuto = (widthCanvas - column * widthBrick - (column-1)*betweenLeftRight)/2;
-    let marginTop = 50;
+    let marginTop = 100;
     let colorBrick = 'red';
     let xBrick = 0;
     let yBrick = 0;
@@ -96,6 +112,7 @@ createBricks();
 
     //DI CHUYỂN: BALL
     function moveBall() {
+        let request =  requestAnimationFrame(moveBall)
         ball.moveBall(dX,dY)
         checkCollisionBallAndPaddle();
         checkCollisionBallAndBrick()
@@ -105,10 +122,12 @@ createBricks();
             dY = -dY;
         } else if(ball.y + ball.radius === heightCanvas){
             alert('Thua!')
+            window.cancelAnimationFrame(request)
+            window.location.reload()
         }
 
         // console.log('tọa độ X quả bóng --->', ball.x)
-       let request =  requestAnimationFrame(moveBall)
+
         clearCanvas()
         ball.drawCircle(ctx)
         paddle.drawRect(ctx)
@@ -149,8 +168,9 @@ function reload() {
                     // alert('va trạm trong')
                     dY = -dY
                     arrBricks[i].status = false;
+                    vaTram.play()
                     score++;
-                    document.getElementById('score').innerHTML = score;
+                    // document.getElementById('score').innerHTML = score;
                 }
                 else if((ball.x+radius >arrBricks[i].x && ball.x < arrBricks[i].x)
                     && (ball.y - radius < arrBricks[i].y+ heightBrick && ball.y > arrBricks[i].y+heightBrick)){ //check góc 1 dưới
@@ -160,21 +180,23 @@ function reload() {
                         dX = -dX;
                         dY = -dY;
                         arrBricks[i].status = false;
+                        vaTram.play()
                         score++;
-                        document.getElementById('score').innerHTML = score;
+                        // document.getElementById('score').innerHTML = score;
                     }else {
                         // alert('va tram 1.1')
                         if(dX<0){
                             dY = -dY
                             arrBricks[i].status = false;
-
+                            vaTram.play()
                             score++;
-                            document.getElementById('score').innerHTML = score;
+                            // document.getElementById('score').innerHTML = score;
                         } else {
                             dX = -dX
                             arrBricks[i].status = false;
+                            vaTram.play()
                             score++;
-                            document.getElementById('score').innerHTML = score;
+                            // document.getElementById('score').innerHTML = score;
                         }
                     }
 
@@ -186,19 +208,22 @@ function reload() {
                         dX = -dX;
                         dY = -dY;
                         arrBricks[i].status = false;
+                        vaTram.play()
                         score++;
-                        document.getElementById('score').innerHTML = score;
+                        // document.getElementById('score').innerHTML = score;
                     } else {
                         if(dX > 0){
                             dX = -dX
                             arrBricks[i].status = false;
+                            vaTram.play()
                             score++;
-                            document.getElementById('score').innerHTML = score;
+                            // document.getElementById('score').innerHTML = score;
                         } else {
                             dY = - dY;
                             arrBricks[i].status = false;
+                            vaTram.play()
                             score++;
-                            document.getElementById('score').innerHTML = score;
+                            // document.getElementById('score').innerHTML = score;
                         }
                     }
                 }
@@ -209,19 +234,22 @@ function reload() {
                         dX = -dX;
                         dY = -dY;
                         arrBricks[i].status = false;
+                        vaTram.play()
                         score++;
-                        document.getElementById('score').innerHTML = score;
+                        // document.getElementById('score').innerHTML = score;
                     } else {
                         if(dX>0){
                             dY = -dY
                             arrBricks[i].status = false;
+                            vaTram.play()
                             score++;
-                            document.getElementById('score').innerHTML = score;
+                            // document.getElementById('score').innerHTML = score;
                         } else {
                             dX = -dX
                             arrBricks[i].status = false;
+                            vaTram.play()
                             score++;
-                            document.getElementById('score').innerHTML = score;
+                            // document.getElementById('score').innerHTML = score;
                         }
                     }
                 }
@@ -231,20 +259,26 @@ function reload() {
                         dX = -dX;
                         dY = -dY;
                         arrBricks[i].status = false;
+                        vaTram.play()
                         score++;
-                        document.getElementById('score').innerHTML = score;
+                        // document.getElementById('score').innerHTML = score;
+
                     } else {
                         if(dX >0){
                             dY = -dY
                             arrBricks[i].status = false;
+                            vaTram.play()
                             score++;
-                            document.getElementById('score').innerHTML = score;
+                            // document.getElementById('score').innerHTML = score;
+
                         } else {
                             // alert('va tram')
                             dX = -dX
                             arrBricks[i].status = false;
+                            vaTram.play()
                             score++;
-                            document.getElementById('score').innerHTML = score;
+                            // document.getElementById('score').innerHTML = score;
+
                         }
                     }
                 }
@@ -253,13 +287,15 @@ function reload() {
                     // alert('vao toa do bang')
                     dX = -dX
                     arrBricks[i].status = false;
+                    vaTram.play()
                     score++;
-                    document.getElementById('score').innerHTML = score;
+                    // document.getElementById('score').innerHTML = score;
                 }
 
             }
 
         }
+        document.getElementById('score').innerHTML = score;
     }
 
     function drawBricks() {
